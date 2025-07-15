@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "declaration": true,
+    "sourceMap": true,
+    "paths": {
+      "@config": [ "./src/config/index.ts" ],
+      "@logger": [ "../libraries/logger/index.ts" ],
+      "@entities": [ "./src/domain/entities/index.ts" ],
+      "@errors": [ "../libraries/error/index.ts" ]
+    }
+  },
+  "include": ["src/**/*", "libraries/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
