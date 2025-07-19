@@ -1,6 +1,4 @@
-import Fastify, {FastifyInstance} from 'fastify';
-import Logger from "@logger";
-import {HttpError} from "../libraries/errors/http.error";
+import Config from '@config'
 import { handleErrors } from '@errors/handle-errors'
 import { HttpError } from "@errors/http.error"
 import Fastify, { type FastifyInstance } from 'fastify'
@@ -17,12 +15,11 @@ class Server {
         this.#app.get('/', async (request, reply) => {
             throw new HttpError(400, 'Test error');
         })
-
     }
 
     async start() {
         try {
-            await this.#app.listen({ port: 3000 })
+            await this.#app.listen({ port: Config.Server.Port})
         } catch (err) {
             handleErrors(err as Error)
             process.exit(1)

@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "main": "index.ts",
   "scripts": {
-    "dev": "tsx --tsconfig=tsconfig.json src/index.ts"
+    "dev": "tsx --tsconfig=tsconfig.json src/index.ts",
+    "test": "mocha",
+    "test:watch": "mocha --watch"
   },
   "keywords": [],
   "author": "",

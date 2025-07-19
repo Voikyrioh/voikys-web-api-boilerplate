@@ -1,21 +1,15 @@
-import {AnyLogger, LoggerLevel} from "@logger";
-import {handleErrors} from "./handle-errors";
+import pino from "pino"
 
-class Logger<T extends AnyLogger> {
-    #logger: AnyLogger;
-    constructor(logger: T) {
-        this.#logger = logger;
-    }
-
-    log(level: LoggerLevel, message: string): void {
-        this.#logger[level]("[CUSTOM LOGGER] - " + message);
-    }
-
-    handleError(error: Error): void {
-        this.#logger.error(handleErrors(error));
-    }
+export const loggerOptions = {
+    transport: {
+        target: 'pino-pretty',
+        options: {
+            colorize: true,
+            include: 'level,time',
+            levelKey: 'level'
+        }
+    },
 }
+const logger = pino(loggerOptions)
 
-const logger = new Logger(console);
-
-export default logger;
+export default logger
