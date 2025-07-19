@@ -1,6 +1,6 @@
-import pino from "pino"
+import pino, { type LoggerOptions } from "pino"
 
-export const loggerOptions = {
+export const loggerOptions: LoggerOptions = {
     transport: {
         target: 'pino-pretty',
         options: {
