@@ -1,3 +1,3 @@
-import Logger from './source/logger';
-export * from './types';
-export default Logger;
+import Logger from './source/logger'
+
+export default Logger

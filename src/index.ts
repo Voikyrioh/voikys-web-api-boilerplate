@@ -1,18 +1,20 @@
-import Server from "./server";
 import * as process from "node:process";
-import Logger, {LoggerLevel} from "@logger";
+import Logger from "@logger";
+import Server from "./server";
 
 async function graceFullStart() {
     await Server.start().catch(graceFullStop);
 }
 
 function graceFullStop(errorCode: number): Promise<void> {
-    return new Promise( async (resolve) => {
-        await Server.stop();
+    return new Promise((resolve) => {
+        Server.stop().then(() => {
+            Logger.info('======== Server stopped ========')
+            resolve(process.exit(errorCode))
+        });
 
-        resolve(process.exit(errorCode));
     })
 }
 
-graceFullStart().then(() => Logger.log(LoggerLevel.INFO, 'Server started')).catch(graceFullStop);
+graceFullStart().then(() => Logger.info( '======== Server started ========')).catch(graceFullStop);
 process.on('SIGINT', graceFullStop);

@@ -1,12 +1,17 @@
 import Fastify, {FastifyInstance} from 'fastify';
 import Logger from "@logger";
 import {HttpError} from "../libraries/errors/http.error";
+import { handleErrors } from '@errors/handle-errors'
+import { HttpError } from "@errors/http.error"
+import Fastify, { type FastifyInstance } from 'fastify'
+import { loggerOptions } from '../libraries/logger/source/logger'
 
 class Server {
     #app: FastifyInstance;
+
     constructor() {
         this.#app = Fastify({
-            logger: true,
+            logger: loggerOptions,
         });
 
         this.#app.get('/', async (request, reply) => {
@@ -19,7 +24,7 @@ class Server {
         try {
             await this.#app.listen({ port: 3000 })
         } catch (err) {
-            Logger.handleError(err as Error)
+            handleErrors(err as Error)
             process.exit(1)
         }
     }
