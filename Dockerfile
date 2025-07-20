@@ -8,22 +8,32 @@ LABEL org.opencontainers.image.licenses=MIT
 # 📁 Copy of source files
 COPY src src/
 COPY libraries libraries/
+COPY index.ts .
 COPY package.json .
+COPY tsconfig.build.json .
 
 #  Install app dependencies
 ENV NPM_CONFIG_LOGLEVEL warn
 RUN npm install --production
-RUN npx tsc --project tsconfig.production.json
+RUN npm install -g typescript
+RUN npm install -g tsc-alias
+RUN tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json
 
-FROM keymetrics/pm2:24-alpine AS RUNNER
+FROM node:24-alpine AS RUNNER
 
 # 🔨 Copy built files
-COPY --from=builder /app/dist .
+COPY --from=builder dist .
+COPY --from=builder package.json .
+COPY --from=builder package-lock.json .
+
+RUN npm ci --production
 
 # 🌳 Install ecosystem for running the app
 COPY ecosystem.config.js .
 
 # 🔌 Expose the listening port of your app
-EXPOSE $PORT
+EXPOSE 8080
 
-CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
+RUN npm install -g pm2
+
+CMD ["pm2-runtime", "ecosystem.config.js"]

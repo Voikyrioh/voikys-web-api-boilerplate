@@ -1,6 +1,6 @@
-import * as process from "node:process";
+import process from "node:process";
 import Logger from "@logger";
-import Server from "./server";
+import Server from "./src/server";
 
 async function graceFullStart() {
     await Server.start().catch(graceFullStop);

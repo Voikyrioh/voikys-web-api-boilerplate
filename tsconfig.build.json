@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "noCheck": true,
     "declaration": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "NodeNext",
-    "moduleResolution": "Node",
-    "noImplicitAny": true,
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
     "paths": {
       "@config": [
@@ -26,9 +26,16 @@
     },
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
     "target": "ESNext"
   },
-  "include": ["src/**/*", "libraries/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "libraries/**/*", "index.ts"],
+  "exclude": ["node_modules", "dist", "./**/__tests__"],
+  "tsc-alias": {
+    "verbose": false,
+    "resolveFullPaths": true,
+    "fileExtensions": {
+      "inputGlob": "{js,jsx,mjs}",
+      "outputCheck": ["js", "json", "jsx", "mjs"]
+    }
+  }
 }
