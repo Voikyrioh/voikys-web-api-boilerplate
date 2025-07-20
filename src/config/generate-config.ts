@@ -21,7 +21,7 @@ function getConfigDefaultValue(config: ConfigOption, environment: typeof env) {
     return config.default._ ?? null
 }
 
-export function generateConfig<T extends Record<string, ConfigOption>>(config: T): Config<T> {
+export function generateConfig<T extends Record<string, ConfigOption>, Out extends Config<T>>(config: T): Out {
     const schemaObject: Record<string, ZodType> = {}
     const out: Record<string, string> = {}
     const defaults: Record<string, ConfigValueType> = {}
@@ -34,5 +34,5 @@ export function generateConfig<T extends Record<string, ConfigOption>>(config: T
 
     return z.object(schemaObject)
         .transform((input) => { return Object.fromEntries(Object.entries(out).map(([key, value]) => [value, input[key]])) })
-        .parse(defaults) as Config<T>
+        .parse(defaults) as Out
 }

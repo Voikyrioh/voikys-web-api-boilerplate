@@ -28,7 +28,7 @@ class Server {
 
     async start() {
         try {
-            await this.#app.listen({ port: Config.Server.Port})
+           await this.#app.listen({ port: Config.Server.Port, host: Config.Server.Host })
         } catch (err) {
             Logger.fatal(`Unhandled fatal error : ${inspect(err)}`)
             process.exit(1)
