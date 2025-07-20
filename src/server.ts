@@ -3,8 +3,8 @@ import Config from '@config'
 import { handleHttpErrors } from '@errors/handle-http-errors'
 import Logger from '@logger'
 import Fastify, { type FastifyInstance, type FastifyReply, type FastifyRequest } from 'fastify'
-import { z } from 'zod'
 import { loggerOptions } from '../libraries/logger/source/logger'
+import { exampleRoute } from './entry-points/routes'
 
 function handleErrorMiddleware(error: unknown, _: FastifyRequest, reply: FastifyReply) {
     const [status, response] = handleHttpErrors(error).toResponse();
@@ -23,12 +23,7 @@ class Server {
         });
         this.#app.setErrorHandler(handleErrorMiddleware)
 
-        this.#app.get('/', async () => {
-            return { hello: 'world' }
-        })
-        this.#app.get('/err', async () => {
-            return z.number().parse('a')
-        })
+        this.#app.register(exampleRoute, { prefix: '/api/v1' })
     }
 
     async start() {
