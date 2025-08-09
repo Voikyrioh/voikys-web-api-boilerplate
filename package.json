@@ -3,10 +3,31 @@
   "version": "0.1.0",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx --tsconfig=tsconfig.json index.ts",
+    "test": "mocha",
+    "test:watch": "mocha --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "engines": {
+    "node": "^24.4.0"
+  },
+  "dependencies": {
+    "fastify": "^5.4.0",
+    "pino": "^9.7.0",
+    "pino-pretty": "^13.0.0",
+    "zod": "^4.0.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2",
+    "@types/chai": "^5.2.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.0.13",
+    "chai": "^5.2.1",
+    "mocha": "^11.7.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
 }
