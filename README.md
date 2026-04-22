@@ -30,7 +30,7 @@ npm install
 ```
 
 ## 🛠️ Development
-Start the development server:
+Start the development index:
 ``` bash
 npm run dev
 ```
@@ -38,7 +38,7 @@ Build the project:
 ``` bash
 npm run build
 ```
-Start the production server:
+Start the production index:
 ``` bash
 npm start
 ```
@@ -58,7 +58,7 @@ src/
   ├── routes/      # API routes definitions
   ├── services/    # Business logic
   ├── types/       # TypeScript type definitions
-  └── server.ts    # Server entry point
+  └── index.ts    # Server entry point
 ```
 ## 🤝 Contributing
 Feel free to submit issues and pull requests.
