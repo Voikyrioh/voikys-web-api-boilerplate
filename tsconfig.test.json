@@ -8,16 +8,8 @@
         "skipLibCheck": true,
         "strict": true,
         "target": "ES2022",
-        "types": [
-            "mocha",
-            "chai",
-            "node"
-        ]
+        "types": ["mocha", "chai", "node"]
     },
-    "exclude": [
-        "node_modules"
-    ],
-    "include": [
-        "src/**/*"
-    ]
+    "exclude": ["node_modules"],
+    "include": ["src/**/*"]
 }

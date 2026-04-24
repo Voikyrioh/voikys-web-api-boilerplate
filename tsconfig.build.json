@@ -1,41 +1,25 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "noCheck": true,
     "declaration": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "Node",
+    "noImplicitAny": true,
     "outDir": "./dist",
     "paths": {
-      "@config": [
-        "./src/config/index.ts"
-      ],
-      "@logger": [
-        "./libraries/logger/index.ts"
-      ],
-      "@entities": [
-        "./src/domain/entities/index.ts"
-      ],
-      "@custom-zod": [
-        "./libraries/custom-zod-type/index.ts"
-      ],
-      "@errors/*": [
-        "./libraries/errors/*"
-      ]
+      "@config": ["./src/config/index.ts"],
+      "@logger": ["./libraries/logger/index.ts"],
+      "@libraries": ["./libraries/index.ts"],
+      "@entities": ["./src/domain/entities/index.ts"],
+      "@custom-zod": ["./libraries/custom-zod-type/index.ts"],
+      "@errors/*": ["./libraries/errors/*"]
     },
     "skipLibCheck": true,
     "sourceMap": true,
+    "strict": true,
     "target": "ESNext"
   },
-  "include": ["src/**/*", "libraries/**/*", "index.ts"],
-  "exclude": ["node_modules", "dist", "./**/__tests__"],
-  "tsc-alias": {
-    "verbose": false,
-    "resolveFullPaths": true,
-    "fileExtensions": {
-      "inputGlob": "{js,jsx,mjs}",
-      "outputCheck": ["js", "json", "jsx", "mjs"]
-    }
-  }
+  "include": ["src/**/*", "libraries/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

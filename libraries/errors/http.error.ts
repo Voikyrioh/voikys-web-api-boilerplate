@@ -28,30 +28,3 @@ export enum ErrorsCodes {
     BAD_GATEWAY = 'Bad gateway',
     SERVICE_UNAVAILABLE = 'Service unavailable',
 }
-
-interface Response {
-    message: string
-    context?: Record<string, any>
-}
-
-export class HttpError extends Error {
-    name = 'HttpError';
-    status: HttpCodes;
-    context: Record<string, any> | undefined;
-    type: string = 'HttpError';
-
-    constructor(status: HttpCodes, message: ErrorsCodes, context?: Record<string, any>) {
-        super(message);
-        this.status = status;
-        this.context = context;
-    }
-
-    toResponse(): [HttpCodes, Response] {
-        const response: Response = { message: this.message }
-        if (this.context) {
-            response.context = this.context;
-        }
-
-        return [this.status, response];
-    }
-}
