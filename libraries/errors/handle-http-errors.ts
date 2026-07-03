@@ -1,41 +1,51 @@
-import { inspect } from 'node:util'
-import { AppError } from '@errors/app.error'
-import { ErrorsCodes, HttpCodes } from '@errors/http.error'
-import Logger from '@logger'
+import { AppError, DomainError } from '@errors/app.error'
+import { ErrorsCodes } from '@errors/http.error'
 import type { Context } from 'hono'
-import { HTTPException } from 'hono/http-exception'
 import type { ContentfulStatusCode } from 'hono/utils/http-status'
-import { ZodError } from 'zod/v4'
+import { ZodError } from 'zod'
+
+/** Generic (front-safe) messages for the hidden families. */
+const GENERIC: Record<'domain' | 'service', string> = {
+	domain: ErrorsCodes.INTERNAL_SERVER_ERROR,
+	service: ErrorsCodes.BAD_GATEWAY,
+}
 
 /**
- * Centralised error handler. Always responds with a JSON body
- * `{ message, cause? }` so the frontend can parse it consistently.
+ * Centralised error handler. Only functional errors relay their code + message
+ * (+ validation details) to the front; domain (500) and service (502) answer a
+ * generic message. A ZodError reaching here is not endpoint validation (that is
+ * converted to a FunctionalError by betterZodValidator) but an internal parse
+ * (entity) → domain. Anything unclassified is wrapped as a domain error.
  */
 export function handleHttpErrors(error: unknown, c: Context) {
-	if (error instanceof ZodError) {
-		return c.json(
-			{ message: ErrorsCodes.BAD_REQUEST, cause: error.issues },
-			HttpCodes.BAD_REQUEST as ContentfulStatusCode,
-		)
-	}
-
 	if (error instanceof AppError) {
+		if (error.family === 'functional') {
+			return c.json(
+				{
+					code: error.code,
+					message: error.message,
+					...(error.details !== undefined ? { details: error.details } : {}),
+				},
+				error.httpCode as ContentfulStatusCode,
+			)
+		}
 		return c.json(
-			{ message: error.message },
-			error.toHttpCode() as ContentfulStatusCode,
+			{ message: GENERIC[error.family as 'domain' | 'service'] },
+			error.httpCode as ContentfulStatusCode,
 		)
 	}
 
-	if (error instanceof HTTPException) {
+	if (error instanceof ZodError) {
+		const domain = new DomainError('Unexpected schema violation', error)
 		return c.json(
-			{ message: error.message },
-			error.status as ContentfulStatusCode,
+			{ message: GENERIC.domain },
+			domain.httpCode as ContentfulStatusCode,
 		)
 	}
 
-	Logger.error(`Unhandled error : ${inspect(error)}`)
+	const unknown = new DomainError('Unhandled error', error)
 	return c.json(
-		{ message: ErrorsCodes.INTERNAL_SERVER_ERROR },
-		HttpCodes.INTERNAL_SERVER_ERROR as ContentfulStatusCode,
+		{ message: GENERIC.domain },
+		unknown.httpCode as ContentfulStatusCode,
 	)
 }
