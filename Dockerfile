@@ -38,4 +38,6 @@ RUN rm .npmrc
 # 🔌 Expose the listening port of your app
 EXPOSE $PORT
 
-CMD ["node", "./dist/index.js"]
+# --import hook : loader ESM OTel — sans lui les deps CJS (pg/mysql2/mongo)
+# échappent au patch, aucun span DB (cf. CHANGELOG observability 0.3.0).
+CMD ["node", "--import", "@Voikyrioh/observability/hook", "./dist/index.js"]
