@@ -1,4 +1,4 @@
-import { FunctionalError } from '@errors/app.error'
+import { FunctionalError } from '@Voikyrioh/observability'
 import { zValidator } from '@hono/zod-validator'
 import type { ValidationTargets } from 'hono'
 import type { z } from 'zod'

@@ -1,8 +1,9 @@
-export { customZod } from './custom-zod-types'
-export { betterZodValidator } from './custom-zod-types/validator'
+// Erreurs/logger/UseCase : lib partagée @Voikyrioh/observability (INFRA-16)
 export {
 	AppError,
 	DomainError,
 	FunctionalError,
 	ServiceError,
-} from './errors/app.error'
+} from '@Voikyrioh/observability'
+export { customZod } from './custom-zod-types'
+export { betterZodValidator } from './custom-zod-types/validator'

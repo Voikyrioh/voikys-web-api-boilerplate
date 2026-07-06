@@ -9,11 +9,9 @@
     "outDir": "./dist",
     "paths": {
       "@config": ["./src/config/index.ts"],
-      "@logger": ["./libraries/logger/index.ts"],
       "@libraries": ["./libraries/index.ts"],
       "@entities": ["./src/domain/entities/index.ts"],
       "@custom-zod": ["./libraries/custom-zod-type/index.ts"],
-      "@errors/*": ["./libraries/errors/*"]
     },
     "skipLibCheck": true,
     "sourceMap": true,

@@ -1,4 +1,4 @@
-import { AppError } from '@errors/app.error'
+import { AppError } from '@Voikyrioh/observability'
 import { argon2id, hash, verify } from "argon2";
 import { z } from "zod";
 
