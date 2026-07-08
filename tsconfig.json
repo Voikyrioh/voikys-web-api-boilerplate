@@ -11,17 +11,14 @@
       "@config": [
         "./src/config/index.ts"
       ],
-      "@logger": [
-        "./libraries/logger/index.ts"
-      ],
       "@entities": [
         "./src/domain/entities/index.ts"
       ],
-      "@custom-zod": [
-        "./libraries/custom-zod-type/index.ts"
+      "@libraries": [
+        "./libraries/index.ts"
       ],
-      "@errors/*": [
-        "./libraries/errors/*"
+      "@custom-zod": [
+        "./libraries/custom-zod-types/index.ts"
       ]
     },
     "skipLibCheck": true,

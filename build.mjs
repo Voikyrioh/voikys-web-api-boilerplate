@@ -10,11 +10,9 @@ await esbuild.build({
 	packages: 'external',
 	alias: {
 		'@config': './src/config/index.ts',
-		'@logger': './libraries/logger/index.ts',
 		'@libraries': './libraries/index.ts',
 		'@entities': './src/domain/entities/index.ts',
 		'@custom-zod': './libraries/custom-zod-types/index.ts',
-		'@errors': './libraries/errors',
 	},
 });
 
