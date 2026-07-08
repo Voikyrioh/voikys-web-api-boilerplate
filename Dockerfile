@@ -38,6 +38,8 @@ RUN rm .npmrc
 # 🔌 Expose the listening port of your app
 EXPOSE $PORT
 
-# --import hook : loader ESM OTel — sans lui les deps CJS (pg/mysql2/mongo)
-# échappent au patch, aucun span DB (cf. CHANGELOG observability 0.3.0).
-CMD ["node", "--import", "@Voikyrioh/observability/hook", "./dist/index.js"]
+# --import register : hook ESM + init SDK dans le preload, AVANT le linking
+# du bundle — une init in-app arrive trop tard pour patcher les imports
+# statiques (pg/mysql2/mongo sans span, cf. CHANGELOG observability 0.4.0).
+# OTEL_SERVICE_NAME requis dans la fiche infra de l app.
+CMD ["node", "--import", "@Voikyrioh/observability/register", "./dist/index.js"]

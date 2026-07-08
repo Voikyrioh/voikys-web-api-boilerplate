@@ -53,11 +53,18 @@ pour les spans d'étapes) + tracing OTel → SigNoz. Package privé GitHub Packa
 - `.npmrc` du projet lit `GITHUB_TOKEN` (env local dev). En CI : secret
   `NPM_TOKEN` (PAT read:packages) sur le repo — ci-release/deploy-app le passent
   en build-arg `GITHUB_TOKEN` au Dockerfile.
+- **Prod : init dans le preload** — CMD Docker
+  `node --import @Voikyrioh/observability/register ./dist/index.js`. Une init
+  in-app arrive après le linking du bundle → les imports statiques
+  (pg/mysql2/mongo/ioredis) ne sont jamais patchés, zéro span DB
+  (observability 0.4.0).
 - `src/instrumentation.ts` : **premier import** de `src/index.ts`, y renseigner
-  `serviceName` (remplacer `CHANGE-ME` = nom de la fiche `apps/`).
+  `serviceName` (remplacer `CHANGE-ME` = nom de la fiche `apps/`) — utile en
+  dev (tsx, sans preload) ; en prod devient un no-op (init idempotente).
 - `otelHono()` : premier middleware de `app.ts`.
 - Fiche `apps/<nom>.yml` : `internal_services: [signoz]` + env
-  `OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz-otel-collector:4318`.
+  `OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz-otel-collector:4318` +
+  `OTEL_SERVICE_NAME: <nom de l'app>` (requis par le preload).
 - Dev sans collector : `OTEL_SDK_DISABLED=true`.
 
 ## Adapter ce template
